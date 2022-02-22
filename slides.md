@@ -70,30 +70,50 @@ Filterlar Vue 3 da mavjud emas.
 
 ---
 
-# Mixin
+# Mixin'lar
 
-<v-click>
+Mixinlar Options API dagi asosiy "logic reuse" qilish usuli hisoblanadi. 
+
+<div class="grid grid-cols-2 gap-x-2">
+<div>
 
 ```js
-const myMixin = {
+const myMixin1 = {
   created: function () {
     this.hello();
   },
   methods: {
     hello: function () {
-      console.log("hello from mixin!");
+      console.log("hello from mixin 1!");
     },
   },
 };
 ```
 
-</v-click>
+</div> 
+<div>
+
+```js
+const myMixin2 = {
+  created: function () {
+    this.hello();
+  },
+  methods: {
+    hello: function () {
+      console.log("hello from mixin 2!");
+    },
+  },
+};
+```
+
+</div>
+</div>
 
 <v-click>
 
 ```js
 var Component = Vue.extend({
-  mixins: [myMixin],
+  mixins: [myMixin1, myMixin2],
 });
 ```
 
@@ -102,7 +122,7 @@ var Component = Vue.extend({
 <v-click>
 
 ```js
-var component = new Component(); // => "hello from mixin!"
+var component = new Component(); // => "hello from mixin 2!"
 ```
 
 </v-click>
@@ -115,15 +135,15 @@ image: /images/mixin.webp
 # Mixin'larning kamchiliklari
 
 - Unclear source of properties
-- Namespace'lar to'qnashuvi
-- Mixin'lar aro aloqaning aniq va to'g'ridan to'g'ri emasligi
+- Namespace collisions
+- Implicit cross-mixin communication
 
 ---
 layout: two-cols
 class: "p-2"
 ---
 
-# Renderless components
+# Renderless component'lar
 
 ```html
 <FetchApi
@@ -134,6 +154,12 @@ class: "p-2"
   <div>Todo: {{ data.title }}</div>
 </FetchApi>
 ```
+
+Renderless component'lar asosan template ga bog'langan bo'ladi. 
+
+Renderless component o'z ichidagi bola componentga slot orqali reactive state ni yuboradi.
+
+Renderless componentning vazifasi hech narsani render qilmasdan ma'lum bir vazifani bajarish va kerakli reactive ma'lumotlarni bola elementlarga berish.
 
 ::right::
 
@@ -193,6 +219,41 @@ export default {
 
 </div>
 
+---
+
+# script setup
+
+<div class="grid grid-cols-2 gap-x-2">
+
+```html
+<script>
+import { ref } from "vue";
+
+export default {
+  setup() {
+    const count = ref(0);
+
+    const increment = () => count.value++;
+    const decrement = () => count.value--;
+
+    return { count, increment, decrement };
+  },
+};
+</script>
+```
+
+```html
+<script setup>
+import { ref } from "vue";
+
+const count = ref(0);
+
+const increment = () => count.value++;
+const decrement = () => count.value--;
+</script>
+```
+
+</div>
 
 ---
 
@@ -245,8 +306,18 @@ Quyidagi savollar tug'ilishi mumkin:
 
 </v-clicks>
 
+---
+
+# Nega composition API?
+
+- Composition API da code reuse qilish yaxshiroq.
+- Composition APIda mixin'lardagi barcha muammolar hal qilingan.
+- Kodni strukturalash qulay.
+- Typescript support yaxshi.
+- script setup ishlatilganda build hajmi kamroq bo'ladi.
 
 ---
 
 # Composition vs Options API
 
+<img src="https://vuejs.org/assets/composition-api-after.e3f2c350.png" class="h-full object-cover" />
