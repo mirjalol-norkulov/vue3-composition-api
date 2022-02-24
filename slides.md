@@ -1,19 +1,23 @@
 ---
 # try also 'default' to start simple
-theme: seriph
+theme: default
 # https://sli.dev/custom/highlighters.html
 highlighter: shiki
 # show line numbers in code blocks
 lineNumbers: false
-background: /images/background.webp
-colorSchema: dark
+
+colorSchema: light
 ---
 
-<div class="flex justify-center mb-3">
+<div class="mb-3">
   <img src="/images/vue-logo.svg" class="w-24" />
 </div>
 
-# Vue 3 composition api
+# Vue 3 Composition API
+
+Options va composition API farqlari. Composition API afzalliklari.
+
+<div class="uppercase text-sm tracking-widest">Mirjalol Norqulov</div> 
 
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
@@ -29,7 +33,7 @@ Options api Vue 2 da qo'llaniladigan asosiy kod yozish stili
 
 Dasturchilar Vue komponentga bir qancha option'larni berish orqali veb dasturlarni yaratishlari mumkin.
 
-```js{all|3-7|8-15|all}
+```js{3,7,8,15|all}
 export default {
   name: 'Counter',
   data() {
@@ -112,17 +116,10 @@ const myMixin2 = {
 <v-click>
 
 ```js
-var Component = Vue.extend({
-  mixins: [myMixin1, myMixin2],
-});
-```
-
-</v-click>
-
-<v-click>
-
-```js
-var component = new Component(); // => "hello from mixin 2!"
+export default {
+  name: 'MyComponent',
+  mixins: [myMixin1, myMixin2]
+};                              // hello from mixin 2!
 ```
 
 </v-click>
@@ -256,30 +253,44 @@ const decrement = () => count.value--;
 </div>
 
 ---
+class: space-y-2
+---
 
 # ref
 
-ref asosan primitive o'zgaruvchilarni reaktiv qilish uchun ishlatiladi. Ammo obyektlar uchun ham ref ishlatish mumkin.
-
-ref funksiyasi argument sifatida biror qiymatni qabul qiladi va mutable ref obyekt qaytaradi. Bu obyektda yagona `.value` degan property mavjud bo'ladi. 
-
-ref obyektning ichidagi `.value` property'sini o'zgartirishimiz mumkin va bu o'zgarish reaktiv bo'ladi.
+- primitiv o'zgaruvchilarni reaktiv qilish mumkin.
+- obyektlarni ham reaktiv qilish mumkin.
+- reassign qilish imkoniyati
+- `.value` qilib ishlatish kerak
 
 ```js
 const count = ref(1);
 
 count.value = 10;
+```
+<v-click>
 
-const users = ref(['Ali', 'Bilol']);
+template'da `.value` shart emas.
 
-users.value.push('Muhammad');
+```html
+<template>
+  <div>
+    {{ count }}
+  </div>
+</template>
 ```
 
+</v-click>
+
+---
+class: space-y-2
 ---
 
 # reactive
 
-reactive orqali biror bir tayyor obyektni reactive qilishimiz mumkin.
+- Obyektlarni reaktiv qilish mumkin.
+- `.value` qilish shart emas.
+- reassign qilib bo'lmaydi.
 
 ```js
 const user = reactive({
@@ -296,7 +307,49 @@ user.age = 35;
 
 # ref vs reactive
 
-Quyidagi savollar tug'ilishi mumkin:
+<div class="grid grid-cols-2 gap-x-2 mt-4">
+
+<div>
+
+```js
+const user = ref({
+  name: 'Ali',
+  age: 25
+});
+
+user.value.age = 30;
+
+user.value = {
+  name: 'Vali',
+  age: 32
+}; // reactive
+```
+
+</div>
+
+<div>
+
+```js
+const user = reactive({
+  name: 'Ali',
+  age: 25
+});
+
+user.age = 30;
+
+user = {
+  name: 'Vali',
+  age: 32
+};  // reactive emas
+```
+
+</div>
+
+</div>
+
+
+<div v-click class="my-3">Quyidagi savollar tug'ilishi mumkin:</div>
+
 
 <v-clicks>
 
@@ -305,6 +358,97 @@ Quyidagi savollar tug'ilishi mumkin:
 - Bu ikkalasining farqi nimada va qachon qay birini ishlatish kerak?
 
 </v-clicks>
+
+---
+layout: two-cols
+class: px-2
+---
+
+# watch ref bilan
+
+```js
+import { ref, watch } from 'vue';
+
+const page = ref(1);
+
+watch(page, (value) => {
+  console.log('Page: ', value);
+});
+```
+
+refni watchga to'g'ridan to'g'ri berish mumkin.
+
+::right::
+
+# watch reactive bilan
+
+```js
+import { reactive, watch } from 'vue';
+
+const pagination = reactive({
+  page: 1,
+  limit: 10
+});
+
+watch(() => pagination.page, (value) => {
+  console.log('Page: ', value);
+})
+```
+
+reactive'ni ichidagi property'ni to'g'ridan to'g'ri berib bo'lmaydi watch'ga
+
+---
+
+# computed
+
+```js
+import { reactive, computed } from 'vue';
+
+const user = reactive({
+  firstName: 'Ali',
+  lastName: 'Valiyev'
+});
+
+const fullName = computed(() => {
+  return user.firstName + ' ' + user.lastName;
+});
+```
+
+```html
+<template>
+  <div>
+    {{ fullName }}
+  </div>
+</template>
+```
+
+---
+
+# Lifecycle hooks
+
+```js
+import { onDeactivated } from 'vue';
+
+export const useInterval = (callback, interval) => {
+  const intervalId = setInterval(callback, interval);
+
+  onDeactivated(() => {
+    clearInterval(intervalId);
+  });
+};
+```
+
+<v-click>
+
+```js
+import { useInterval } from '@/composables/useInterval';
+
+useInterval(() => {
+  console.log(new Date());
+}, 1000);
+```
+
+</v-click>
 
 ---
 
@@ -321,3 +465,9 @@ Quyidagi savollar tug'ilishi mumkin:
 # Composition vs Options API
 
 <img src="https://vuejs.org/assets/composition-api-after.e3f2c350.png" class="h-full object-cover" />
+
+---
+layout: center
+---
+
+# E'tiboringiz uchun rahmat!
