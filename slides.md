@@ -131,9 +131,13 @@ image: /images/mixin.webp
 
 # Mixin'larning kamchiliklari
 
+<v-clicks>
+
 - Unclear source of properties
 - Namespace collisions
 - Implicit cross-mixin communication
+
+</v-clicks>
 
 ---
 layout: two-cols
@@ -466,8 +470,38 @@ useInterval(() => {
 
 <img src="https://vuejs.org/assets/composition-api-after.e3f2c350.png" class="h-full object-cover" />
 
+
+---
+layout: center
+class: text-center
+---
+
+
+# VueUse - tayyor composable funksiyalar
+
+https://vueuse.org/
+
+
+---
+layout: center
+class: text-center
+---
+# Naive UI - Vue 3 component library
+https://www.naiveui.com/
+
+---
+layout: center
+---
+
+# Slidev - Presentation Slides for Developers
+https://sli.dev
+
+Ushby slayd Slidev yordamida yasalgan :)
+
 ---
 layout: center
 ---
 
 # E'tiboringiz uchun rahmat!
+
+Endi live coding.
