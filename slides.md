@@ -476,22 +476,52 @@ layout: center
 class: text-center
 ---
 
+<div class="flex justify-center mb-4">
+  <img 
+    src="https://d33wubrfki0l68.cloudfront.net/a5780e53fee68ddd1cd73a00484151d2d052cb4d/b7469/logo-vertical.png" 
+    alt="Pinia" 
+    class="w-24" 
+  />
+</div> 
 
 # VueUse - tayyor composable funksiyalar
 
 https://vueuse.org/
 
+---
+layout: center
+class: text-center space-y-2
+---
+
+<div class="flex justify-center mb-4">
+  <img src="https://pinia.vuejs.org/logo.svg" alt="Pinia" class="w-24" />
+</div> 
+
+# Pinia
+
+The Vue Store that you will enjoy using
+
+https://pinia.vuejs.org
 
 ---
 layout: center
 class: text-center
 ---
+
+<div class="flex justify-center mb-4">
+  <img src="https://www.naiveui.com/assets/naivelogo.93278402.svg" alt="Naive UI" class="w-24" />
+</div>
+
 # Naive UI - Vue 3 component library
 https://www.naiveui.com/
 
 ---
 layout: center
+class: text-center
 ---
+<div class="flex justify-center mb-4">
+  <img src="https://d33wubrfki0l68.cloudfront.net/9a47dde680cca08e326c07824009ed1adc29626e/6a1c0/logo-title.png" class="w-24" />
+</div>
 
 # Slidev - Presentation Slides for Developers
 https://sli.dev
@@ -500,6 +530,7 @@ Ushby slayd Slidev yordamida yasalgan :)
 
 ---
 layout: center
+class: text-center
 ---
 
 # E'tiboringiz uchun rahmat!
